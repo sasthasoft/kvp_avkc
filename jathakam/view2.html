@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>திருமண பதிவு</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f0f4ff;
+color:#000;
+}
+
+/* HEADER */
+.header{
+background:#173f8a;
+color:white;
+text-align:center;
+padding:18px;
+font-size:28px;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+/* CONTROLS */
+.controls{
+padding:15px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+background:#dfe8ff;
+}
+
+select,button{
+padding:12px 16px;
+border:none;
+border-radius:10px;
+font-size:15px;
+font-weight:bold;
+outline:none;
+}
+
+select{
+background:#fff;
+border:1px solid #999;
+min-width:160px;
+}
+
+button{
+background:#173f8a;
+color:#fff;
+cursor:pointer;
+}
+
+button:hover{
+background:#0d2d69;
+}
+
+/* LIST */
+#list{
+padding:15px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:15px;
+}
+
+/* CARD */
+.item{
+background:#fff;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+border:1px solid #ddd;
+}
+
+.card-top{
+background:#173f8a;
+padding:15px;
+text-align:center;
+color:#fff;
+}
+
+.card-top img{
+width:120px;
+height:120px;
+border-radius:10px;
+object-fit:cover;
+border:3px solid #fff;
+background:#fff;
+}
+
+.card-name{
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.card-body{
+padding:15px;
+line-height:2;
+font-size:15px;
+}
+
+/* LOADING */
+#loading{
+display:none;
+justify-content:center;
+align-items:center;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+color:#fff;
+font-size:24px;
+font-weight:bold;
+z-index:9999;
+}
+
+/* PRINT AREA */
+#printArea{
+display:none;
+}
+
+/* A4 */
+.a4{
+width:210mm;
+height:297mm;
+background:#fff;
+margin:auto;
+padding:6mm;
+overflow:hidden;
+page-break-after:always;
+}
+
+/* TOP */
+.print-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px;
+gap:10px;
+}
+
+.print-left{
+width:74%;
+}
+
+.print-left h1{
+font-size:24px;
+text-align:center;
+color:red;
+margin-bottom:5px;
+}
+
+/* H4 PRINT FIX */
+.print-left h4{
+background:brown !important;
+color:#ffffff !important;
+padding:8px;
+border-radius:6px;
+text-align:center;
+font-size:16px;
+margin-bottom:5px;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+color-adjust:exact !important;
+}
+  
+  .print-left h3{
+background:green !important;
+color:#ffffff !important;
+padding:8px;
+border-radius:6px;
+text-align:center;
+font-size:16px;
+margin-bottom:5px;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+color-adjust:exact !important;
+}
+
+/* H5 PRINT FIX */
+.print-left h5{
+background:#173f8a !important;
+color:#ffffff !important;
+padding:8px;
+border-radius:6px;
+text-align:center;
+font-size:12px;
+line-height:1.5;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+color-adjust:exact !important;
+}
+
+/* PHOTO */
+.print-photo{
+width:115px;
+height:140px;
+border:3px solid #173f8a;
+border-radius:10px;
+overflow:hidden;
+flex-shrink:0;
+}
+
+.print-photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+/* BOX */
+.box{
+border:1px solid #ccc;
+border-radius:12px;
+overflow:hidden;
+}
+
+/* BOX TITLE */
+.box-title{
+background:#173f8a;
+color:#fff;
+padding:10px;
+font-size:16px;
+font-weight:bold;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+.question{
+background:#edf3ff;
+font-weight:bold;
+color:#173f8a;
+width:40%;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+}
+
+.answer{
+background:#fffdf2;
+color:#9b5d00;
+font-weight:bold;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #ddd;
+font-size:13px;
+vertical-align:top;
+}
+
+/* FOOTER */
+.footer{
+margin-top:15px;
+padding:10px;
+text-align:center;
+font-size:12px;
+background:#f1f1f1;
+border-radius:10px;
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+}
+
+/* PRINT */
+@media print{
+
+@page{
+size:A4;
+margin:0;
+}
+
+html,body{
+width:210mm;
+height:297mm;
+background:#fff;
+}
+
+body{
+-webkit-print-color-adjust:exact !important;
+print-color-adjust:exact !important;
+color-adjust:exact !important;
+}
+
+body *{
+visibility:hidden;
+}
+
+#printArea,
+#printArea *{
+visibility:visible;
+}
+
+#printArea{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+}
+
+.a4{
+page-break-after:always;
+}
+
+.a4:last-child{
+page-break-after:auto;
+}
+
+}
+
+</style>
+</head>
+
+<body onload="loadData()">
+
+<div class="header">
+💍 திருமண பதிவு
+</div>
+
+<div class="controls">
+
+<select id="gender">
+<option value="">பாலினம்</option>
+<option value="Male">ஆண்</option>
+<option value="Female">பெண்</option>
+</select>
+
+<select id="rasi">
+<option value="">ராசி</option>
+</select>
+
+<select id="nak">
+<option value="">நட்சத்திரம்</option>
+</select>
+
+<button onclick="filterData()">🔍 Search</button>
+
+<button onclick="printAll()">🖨 Print</button>
+
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+⏳ Loading Please Wait...
+</div>
+
+<!-- LIST -->
+<div id="list"></div>
+
+<!-- PRINT -->
+<div id="printArea"></div>
+
+<script>
+
+const URL="https://script.google.com/macros/s/AKfycbysdCyB87dI2IuKti4BcuneQJ_Fw3zRJpMFDJuUrQzNS23SxS_r2WxFQmagvD9fS-Zl/exec";
+
+let data=[];
+let filtered=[];
+
+/* LOAD DATA */
+function loadData(){
+
+showLoading("⏳ தரவுகள் ஏற்றப்படுகிறது...");
+
+fetch(URL)
+
+.then(r=>r.json())
+
+.then(res=>{
+
+data=res;
+
+loadFilters(res);
+
+hideLoading();
+
+})
+
+.catch(err=>{
+
+hideLoading();
+
+alert("Data Load Error");
+
+console.log(err);
+
+});
+
+}
+
+/* FILTER LOAD */
+function loadFilters(res){
+
+let rasiSet=new Set();
+let nakSet=new Set();
+
+for(let i=1;i<res.length;i++){
+
+if(res[i][14]){
+rasiSet.add(res[i][14]);
+}
+
+if(res[i][15]){
+nakSet.add(res[i][15]);
+}
+
+}
+
+rasiSet.forEach(v=>{
+
+document.getElementById("rasi").innerHTML +=
+`<option value="${v}">${v}</option>`;
+
+});
+
+nakSet.forEach(v=>{
+
+document.getElementById("nak").innerHTML +=
+`<option value="${v}">${v}</option>`;
+
+});
+
+}
+
+/* SEARCH */
+function filterData(){
+
+showLoading("⏳ தேடப்படுகிறது...");
+
+setTimeout(()=>{
+
+let g=document.getElementById("gender").value;
+let r=document.getElementById("rasi").value;
+let n=document.getElementById("nak").value;
+
+filtered=[];
+
+let html="";
+
+for(let i=1;i<data.length;i++){
+
+let d=data[i];
+
+if(
+(!g || d[3]==g) &&
+(!r || d[14]==r) &&
+(!n || d[15]==n)
+){
+
+filtered.push(d);
+
+html += `
+
+<div class="item">
+
+<div class="card-top">
+
+<img src="${d[30] || ''}"
+onerror="this.src='https://via.placeholder.com/120x120'">
+
+<div class="card-name">
+${d[1] || ''}
+</div>
+
+</div>
+
+<div class="card-body">
+
+<div><b>வயது :</b> ${d[2] || ''}</div>
+
+<div><b>ராசி :</b> ${d[14] || ''}</div>
+
+<div><b>நட்சத்திரம் :</b> ${d[15] || ''}</div>
+
+<div><b>நகரம் :</b> ${d[6] || ''}</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+}
+
+document.getElementById("list").innerHTML=html;
+
+hideLoading();
+
+},500);
+
+}
+
+/* PRINT */
+function printAll(){
+
+if(filtered.length===0){
+
+alert("முதலில் பதிவு தேர்வு செய்யவும்");
+
+return;
+
+}
+
+showLoading("⏳ Print Ready ஆகிறது...");
+
+let output="";
+
+filtered.forEach(r=>{
+
+output += createA4(r);
+
+});
+
+document.getElementById("printArea").innerHTML=output;
+
+document.getElementById("printArea").style.display="block";
+
+setTimeout(()=>{
+
+hideLoading();
+
+window.print();
+
+},1000);
+
+}
+
+/* CREATE A4 */
+function createA4(r){
+
+return `
+
+<div class="a4">
+
+<div class="print-header">
+
+<div class="print-left">
+
+<h1>${r[1] || ''}</h1>
+
+  
+<h5>
+கோவில்பட்டி ஆயிர வைசிய காசுக்காரச் செட்டிப்பிள்ளைகள் சங்கம்,
+ 
+</h5><br>
+  <h3> சார்பாக நடைபெறும்</h3><br>
+<h4>
+💍 ஜாதக பரிவர்த்தனை விவரம்
+</h4>
+
+
+</div>
+
+<div class="print-photo">
+
+<img src="${r[30] || ''}"
+onerror="this.src='https://via.placeholder.com/115x140'">
+
+</div>
+
+</div>
+
+<div class="grid">
+
+${box("👤 தனிப்பட்ட விவரம்",[
+["பெயர்",r[28]],
+["வயது",r[2]],
+["பாலினம்",r[3]],
+["மொபைல்",r[4]]
+])}
+
+${box("📏 உடல் விவரம்",[
+["உயரம்",r[9]],
+["எடை",r[10]],
+["திருமண நிலை",r[11]]
+])}
+
+${box("🕉 மத விவரம்",[
+["மதம்",r[12]],
+["ஜாதி",r[13]],
+["ராசி",r[14]],
+["நட்சத்திரம்",r[15]]
+])}
+
+${box("💼 வேலை விவரம்",[
+["கல்வி",r[17]],
+["வேலை",r[18]],
+["மாத வருமானம்",r[20]]
+])}
+
+${box("👨‍👩‍👧 குடும்பம்",[
+["தந்தை",r[21]],
+["தாய்",r[22]]
+])}
+
+${box("❤️ முகவரி",[
+["முகவரி",r[6]]
+])}
+
+</div>
+
+<div class="footer">
+
+<p style="
+font-size:12px;
+font-weight:bold;
+text-align:center;
+margin-top:10px;
+border-top:1px solid #000;
+padding-top:5px;
+">
+
+மணமக்கள் பதிவு விதிமுறைகள் மற்றும் நிபந்தனைகள்:
+அனைத்து தகவல்களும் விண்ணப்பதாரர் மற்றும் பெற்றோரால் வழங்கப்பட்டவை.
+திருமணம் உறுதிப்படுத்தும் முன் அனைத்து விவரங்களையும் சரிபார்க்கவும்.
+
+</p>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/* BOX */
+function box(title,rows){
+
+let html=`
+
+<div class="box">
+
+<div class="box-title">
+${title}
+</div>
+
+<table>
+
+`;
+
+rows.forEach(r=>{
+
+html += `
+
+<tr>
+
+<td class="question">
+${r[0]}
+</td>
+
+<td class="answer">
+${r[1] || ''}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html += `
+
+</table>
+
+</div>
+
+`;
+
+return html;
+
+}
+
+/* LOADING */
+function showLoading(msg){
+
+document.getElementById("loading").innerHTML=msg;
+document.getElementById("loading").style.display="flex";
+
+}
+
+function hideLoading(){
+
+document.getElementById("loading").style.display="none";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login System</title>
+
+<!-- Browser Tab Icon -->
+<link rel="icon" type="image/png" href="intro2.png">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#f0f4ff);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  width:95%;
+  max-width:400px;
+  background:#ffffff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  text-align:center;
+}
+
+/* Default Shape Image */
+.logo-wrapper{
+  width:160px;
+  margin:10px auto 20px auto;
+}
+
+.logo-wrapper img{
+  width:100%;
+  height:auto;      /* Keeps original shape */
+  display:block;
+}
+
+/* White Flash Effect */
+.logo-wrapper{
+  position:relative;
+  overflow:hidden;
+}
+
+.logo-wrapper::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-75%;
+  width:40%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.9) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform:skewX(-25deg);
+  animation: flash 3s infinite;
+}
+
+@keyframes flash{
+  0%{ left:-75%; }
+  100%{ left:125%; }
+}
+
+h2{
+  margin-bottom:15px;
+  color:#c2185b;
+}
+  
+  h5{
+  margin-bottom:15px;
+  color:#c2185b;
+}
+
+select, input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
+}
+
+select:focus, input:focus{
+  outline:none;
+  border:1px solid #c2185b;
+}
+
+.password-box{
+  position:relative;
+}
+
+.password-box input{
+  padding-right:45px;
+}
+
+.eye{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:18px;
+  color:#777;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  background:#c2185b;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#8b004f;
+}
+
+.msg{
+  font-size:14px;
+  margin-top:8px;
+  color:red;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Image Default Shape -->
+  <div class="logo-wrapper">
+    <img src="intro2.png" alt="Logo">
+  </div>
+
+  <h2>LOGIN</h2>
+
+  <select id="role">
+    <option value="">Select User</option>
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+  </select>
+
+  <div class="password-box">
+    <input type="password" id="password" placeholder="Enter Password">
+    <span class="eye" onclick="togglePassword()">👁</span>
+  </div>
+
+  <button onclick="login()">Login</button>
+
+  <div id="msg" class="msg"></div>
+  <br>
+  <h5>Sastha Software | Call : (+91) 63830 03056</h5>
+</div>
+
+<script>
+
+const credentials = {
+  admin: "4321",
+  user: "321"
+};
+
+function togglePassword(){
+  const passField = document.getElementById("password");
+  passField.type = passField.type === "password" ? "text" : "password";
+}
+
+function login(){
+  let role = document.getElementById("role").value;
+  let pass = document.getElementById("password").value.trim();
+  let msg = document.getElementById("msg");
+
+  if(role==="" || pass===""){
+    msg.innerHTML="Select User and Enter Password";
+    return;
+  }
+
+  if(credentials[role] === pass){
+    sessionStorage.setItem("role", role);
+    if(role === "admin"){
+      window.location="view2.html";
+    }else{
+      window.location="view2.html";
+    }
+  }else{
+    msg.innerHTML="Invalid Password";
+  }
+}
+
+</script>
+
+</body>
+</html>

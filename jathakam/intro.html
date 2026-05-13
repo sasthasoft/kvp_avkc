@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sastha Software</title>
+
+<!-- App Icon Support -->
+<link rel="icon" type="image/png" href="intro2.png">
+<link rel="apple-touch-icon" href="intro2.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.json">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:#ffffff; /* Pure White Background */
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+/* Center Image */
+.intro-img{
+    width:200px;
+    max-width:80%;
+    animation:zoomInOut 5s ease-in-out forwards;
+    z-index:2;
+    filter:drop-shadow(0 0 10px rgba(0,0,0,0.15));
+}
+
+/* Inner → Outer Zoom Animation */
+@keyframes zoomInOut{
+    0%{
+        transform:scale(0.2);
+        opacity:0;
+    }
+    50%{
+        transform:scale(1.1);
+        opacity:1;
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* Yellow Star Effect */
+.star{
+    position:absolute;
+    width:6px;
+    height:6px;
+    background:white;
+    border-radius:50%;
+    box-shadow:0 0 0px yellow,0 0 0px gold;
+    animation:starMove linear infinite;
+}
+
+/* Star Animation */
+@keyframes starMove{
+    0%{
+        transform:translateY(-100vh) scale(0.5);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(100vh) scale(1);
+        opacity:0;
+    }
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .intro-img{
+        width:180px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<img src="intro2.png" class="intro-img">
+
+<script>
+
+/* Create Yellow Billing Stars */
+for(let i=0;i<50;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"vw";
+    star.style.animationDuration=(Math.random()*3+2)+"s";
+    star.style.animationDelay=Math.random()*5+"s";
+    document.body.appendChild(star);
+}
+
+/* Auto Redirect After 8 Seconds */
+setTimeout(function(){
+    window.location.href="entry.html";
+},8000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>திருமண பதிவு</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:#1e3c72;
+color:#fff;
+}
+
+/* HEADER */
+.header{
+text-align:center;
+padding:12px;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:#ffd700;
+font-size:20px;
+font-weight:bold;
+}
+
+/* CONTROLS */
+.controls{
+text-align:center;
+padding:10px;
+}
+
+select,button{
+padding:8px;
+margin:5px;
+border-radius:8px;
+border:none;
+}
+
+button{
+background:#ffd700;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* LIST */
+.item{
+background:#fff;
+color:#000;
+margin:8px;
+padding:10px;
+border-radius:10px;
+}
+
+/* LOADING */
+#loading{
+display:none;
+text-align:center;
+font-weight:bold;
+color:#ffd700;
+}
+
+/* PRINT AREA */
+#printArea{
+display:none;
+}
+
+/* A4 PAGE */
+.a4{
+width:210mm;
+height:297mm;
+background:#fff;
+color:#000;
+padding:12px;
+box-sizing:border-box;
+margin:0;
+}
+
+/* A4 HEADER */
+.a4-header{
+text-align:center;
+background:#2a5298;
+color:#fff;
+padding:8px;
+border-radius:8px;
+}
+
+.a4-header h2{
+margin:5px;
+color:#ffd700;
+}
+
+.a4-header img{
+width:100px;
+height:100px;
+border:3px solid gold;
+border-radius:8px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:8px;
+}
+
+.box{
+border:1px solid #ccc;
+border-radius:8px;
+font-size:12px;
+}
+
+.box-title{
+background:#2a5298;
+color:#fff;
+padding:4px;
+font-weight:bold;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td{
+padding:4px;
+border-bottom:1px solid #eee;
+}
+
+/* PRINT FIX */
+@media print{
+@page{
+size:A4;
+margin:0;
+}
+
+body *{visibility:hidden;}
+
+#printArea, #printArea *{
+visibility:visible;
+}
+
+#printArea{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+}
+
+.a4{
+page-break-after:always;
+}
+
+/* REMOVE LAST EMPTY PAGE */
+.a4:last-child{
+page-break-after:auto;
+}
+}
+</style>
+</head>
+
+<body onload="loadData()">
+
+<div class="header">திருமண பதிவு</div>
+
+<div class="controls">
+<select id="gender">
+<option value="">பாலினம்</option>
+<option value="Male">ஆண்</option>
+<option value="Female">பெண்</option>
+</select>
+
+<select id="rasi"><option value="">ராசி</option></select>
+<select id="nak"><option value="">நட்சத்திரம்</option></select>
+
+<button onclick="filterData()">Search</button>
+<button onclick="printAll()">🖨 Print</button>
+</div>
+
+<div id="loading">⏳ தயவு செய்து காத்திருக்கவும்... அச்சிடப்படுகிறது...</div>
+
+<div id="list"></div>
+<div id="printArea"></div>
+
+<script>
+const URL="https://script.google.com/macros/s/AKfycbysdCyB87dI2IuKti4BcuneQJ_Fw3zRJpMFDJuUrQzNS23SxS_r2WxFQmagvD9fS-Zl/exec";
+
+let data=[];
+let filtered=[];
+
+/* LOAD */
+function loadData(){
+fetch(URL)
+.then(r=>r.json())
+.then(res=>{
+data=res;
+loadFilters(res);
+});
+}
+
+/* FILTER OPTIONS */
+function loadFilters(res){
+let rasiSet=new Set();
+let nakSet=new Set();
+
+for(let i=1;i<res.length;i++){
+rasiSet.add(res[i][14]);
+nakSet.add(res[i][15]);
+}
+
+rasiSet.forEach(v=>{
+if(v) rasi.innerHTML+=`<option>${v}</option>`;
+});
+
+nakSet.forEach(v=>{
+if(v) nak.innerHTML+=`<option>${v}</option>`;
+});
+}
+
+/* FILTER */
+function filterData(){
+let g=gender.value;
+let r=rasi.value;
+let n=nak.value;
+
+filtered=[];
+let html="";
+
+for(let i=1;i<data.length;i++){
+let d=data[i];
+
+if((!g || d[3]==g) &&
+(!r || d[14]==r) &&
+(!n || d[15]==n)){
+filtered.push(d);
+html+=`<div class="item"><b>${d[1]}</b> - ${d[14]} - வயது ${d[2]}</div>`;
+}
+}
+
+list.innerHTML=html;
+}
+
+/* PRINT */
+function printAll(){
+
+if(filtered.length===0){
+alert("முதலில் பதிவு தேர்வு செய்யவும்");
+return;
+}
+
+loading.style.display="block";
+
+let output="";
+
+filtered.forEach(r=>{
+output+=createA4(r);
+});
+
+printArea.innerHTML=output;
+printArea.style.display="block";
+
+/* WAIT RENDER */
+setTimeout(()=>{
+loading.style.display="none";
+window.print();
+},600);
+}
+
+/* CREATE A4 */
+function createA4(r){
+return `
+<div class="a4">
+
+<div class="a4-header">
+<h2>${r[1]}</h2>
+<p>திருமண விவரம்</p>
+<img src="${r[30] || ''}">
+</div>
+
+<div class="grid">
+
+${box("தனிப்பட்ட", [
+["வயது", r[2]],
+["பாலினம்", r[3]],
+["மொபைல்", r[4]],
+["நகரம்", r[6]]
+])}
+
+${box("உடல்", [
+["உயரம்", r[9]],
+["எடை", r[10]],
+["திருமண நிலை", r[11]]
+])}
+
+${box("மதம்", [
+["மதம்", r[12]],
+["ஜாதி", r[13]],
+["ராசி", r[14]],
+["நட்சத்திரம்", r[15]]
+])}
+
+${box("வேலை", [
+["கல்வி", r[17]],
+["வேலை", r[18]],
+["வருமானம்", r[20]]
+])}
+
+${box("குடும்பம்", [
+["தந்தை", r[21]],
+["தாய்", r[22]]
+])}
+
+${box("மற்றவை", [
+["விருப்பம்", r[28]]
+])}
+
+</div>
+
+</div>`;
+}
+
+/* BOX */
+function box(title, rows){
+let html=`<div class="box"><div class="box-title">${title}</div><table>`;
+rows.forEach(r=>{
+html+=`<tr><td>${r[0]}</td><td>${r[1]||''}</td></tr>`;
+});
+html+=`</table></div>`;
+return html;
+}
+</script>
+
+</body>
+</html>

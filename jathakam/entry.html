@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrimony Full System</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:#fff;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:15px;
+}
+
+.card{
+    background:#ffffff10;
+    padding:20px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+}
+
+h2{
+    text-align:center;
+    color:#ffd700;
+    margin-bottom:20px;
+}
+
+/* GRID RESPONSIVE */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+/* FIELD BOX */
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    font-size:13px;
+    margin-bottom:5px;
+    color:#ffd700;
+    font-weight:bold;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+}
+
+textarea{
+    resize:none;
+    height:70px;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#ffd700;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* IMAGE */
+.img-box{
+    text-align:center;
+}
+img{
+    width:80px;
+    margin-top:8px;
+    border-radius:8px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+}
+
+th, td{
+    border:1px solid #fff;
+    padding:8px;
+    text-align:center;
+}
+
+/* MOBILE TABLE */
+@media(max-width:600px){
+    table,thead,tbody,tr,td,th{display:block;}
+    tr{
+        margin-bottom:15px;
+        background:#ffffff10;
+        padding:10px;
+        border-radius:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h2>Matrimony Registration</h2>
+
+<div class="grid">
+<div class="field"><label>Full Name - முழு பெயர் </label><input id="hobbies"></div>
+
+<div class="field"><label>Short Name - சிறு பெயர்</label><input id="name"></div>
+<div class="field"><label>Age - வயது</label><input id="age"></div>
+
+<div class="field"><label>Gender - பாலினம்</label>
+<select id="gender"><option>Male</option><option>Female</option></select></div>
+
+<div class="field"><label>Mobile No - மொபைல் எண்</label><input id="mobile"></div>
+<div class="field"><label>Email - மின்னஞ்சல்</label><input id="email"></div>
+
+<div class="field"><label>Address - முழு முகவரி</label><input id="city"></div>
+<div class="field"><label>State - மாநிலம்</label><input id="state"></div>
+<div class="field"><label>Country - நாடு</label><input id="country"></div>
+
+<div class="field"><label>Height- உயரம்</label><input id="height"></div>
+<div class="field"><label>Weight - எடை</label><input id="weight"></div>
+
+<div class="field"><label>Marital Status - திருமண நிலை</label>
+<select id="marital"><option>Single</option><option>Divorced</option></select></div>
+
+<div class="field"><label>Religion - மதம்</label><input id="religion"></div>
+<div class="field"><label>Caste - சாதி</label><input id="caste"></div>
+
+<div class="field"><label>Rasi - ராசி</label>
+<select id="rasi">
+<option>மேஷம்</option><option>ரிஷபம்</option><option>மிதுனம்</option>
+<option>கடகம்</option><option>சிம்மம்</option><option>கன்னி</option>
+<option>துலாம்</option><option>விருச்சிகம்</option><option>தனுசு</option>
+<option>மகரம்</option><option>கும்பம்</option><option>மீனம்</option>
+</select></div>
+
+<div class="field"><label>Nakshatram - நட்சத்திரம்</label>
+<select id="nakshatra">
+<option>அசுவினி</option><option>பரணி</option><option>கார்த்திகை</option>
+<option>ரோகிணி</option><option>மிருகசீரிடம்</option>
+<option>திருவாதிரை</option><option>புனர்பூசம்</option>
+<option>பூசம்</option><option>ஆயில்யம்</option>
+<option>மகம்</option><option>பூரம்</option><option>உத்திரம்</option>
+<option>ஹஸ்தம்</option><option>சித்திரை</option>
+<option>சுவாதி</option><option>விசாகம்</option>
+<option>அனுஷம்</option><option>கேட்டை</option>
+<option>மூலம்</option><option>பூராடம்</option>
+<option>உத்திராடம்</option><option>திருவோணம்</option>
+<option>அவிட்டம்</option><option>சதயம்</option>
+<option>பூரட்டாதி</option><option>உத்திரட்டாதி</option>
+<option>ரேவதி</option>
+</select></div>
+
+<div class="field"><label>Dosham - தோஷம்</label>
+<select id="dosham"><option>No</option><option>Yes</option></select></div>
+
+<div class="field"><label>Education - கல்வித் தகுதி</label><input id="education"></div>
+<div class="field"><label>Job - வேலை</label><input id="job"></div>
+<div class="field"><label>Company - நிறுவனம்</label><input id="company"></div>
+<div class="field"><label>Monthly Income - மாத வருமானம்</label><input id="income"></div>
+
+<div class="field"><label>Father Name - தந்தை பெயர்</label><input id="father"></div>
+<div class="field"><label>Mother Name - தாய் பெயர்</label><input id="mother"></div>
+<div class="field"><label>Siblings - உடன்பிறந்தவர்கள்</label><input id="siblings"></div>
+
+<div class="field"><label>Family Type - குடும்ப வகை</label>
+<select id="family"><option>Joint</option><option>Nuclear</option></select></div>
+
+<div class="field"><label>Food - உணவு</label>
+<select id="food"><option>Veg</option><option>Non-Veg</option></select></div>
+
+<div class="field"><label>Smoking - புகைபிடித்தல்</label>
+<select id="smoking"><option>No</option><option>Yes</option></select></div>
+
+<div class="field"><label>Drinking - </label>
+<select id="drinking"><option>No</option><option>Yes</option></select></div>
+
+
+<div class="field" style="grid-column:1/-1;">
+<label>About</label>
+<textarea id="about"></textarea>
+</div>
+
+<div class="field img-box" style="grid-column:1/-1;">
+<label>Upload Photo</label>
+<input type="file" id="img">
+<img id="preview">
+</div>
+
+</div>
+
+<button onclick="save()">Save</button>
+
+    <h5>Sastha Software | Call : (+91) 6383003056</h5>
+</div>
+</div>
+
+<script>
+const URL="https://script.google.com/macros/s/AKfycbysdCyB87dI2IuKti4BcuneQJ_Fw3zRJpMFDJuUrQzNS23SxS_r2WxFQmagvD9fS-Zl/exec";
+
+let base64="";
+img.onchange=()=>{
+ let f=img.files[0];
+ let r=new FileReader();
+ r.onload=()=>{preview.src=r.result;base64=r.result;}
+ if(f) r.readAsDataURL(f);
+}
+
+function save(){
+let d={
+name:name.value,age:age.value,gender:gender.value,
+mobile:mobile.value,email:email.value,
+city:city.value,state:state.value,country:country.value,
+height:height.value,weight:weight.value,marital:marital.value,
+religion:religion.value,caste:caste.value,
+rasi:rasi.value,nakshatra:nakshatra.value,dosham:dosham.value,
+education:education.value,job:job.value,company:company.value,income:income.value,
+father:father.value,mother:mother.value,siblings:siblings.value,family:family.value,
+food:food.value,smoking:smoking.value,drinking:drinking.value,
+hobbies:hobbies.value,about:about.value,
+image:base64
+};
+
+fetch(URL,{method:"POST",body:JSON.stringify(d)})
+.then(()=>{alert("Saved");load();});
+}
+
+function load(){
+fetch(URL).then(r=>r.json()).then(d=>{
+let html="";
+for(let i=1;i<d.length;i++){
+html+=`<tr>
+<td>${d[i][0]}</td>
+<td>${d[i][1]}</td>
+<td>${d[i][6]}</td>
+<td><img src="${d[i][34]}"></td>
+<td><button onclick="del('${d[i][0]}')">Delete</button></td>
+</tr>`;
+}
+data.innerHTML=html;
+});
+}
+
+function del(id){
+fetch(URL+"?id="+id,{method:"DELETE"})
+.then(()=>{alert("Deleted");load();});
+}
+
+load();
+</script>
+
+</body>
+</html>
